@@ -40,8 +40,10 @@ const CountdownPage = () => {
       return newTimeLeft;
     };
 
+    // Calculate initial time left immediately
     setTimeLeft(calculateTimeLeft());
     setCurrentYear(new Date().getFullYear());
+
 
     const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -60,9 +62,7 @@ const CountdownPage = () => {
         src="https://www.akrahotels.com/media/1due0kcv/akra-kemer-anasayfa-promo.jpg?format=webp&quality=75"
         alt="Akra Kemer Background"
         fill
-        objectFit="cover"
-        quality={75}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 object-cover"
         data-ai-hint="hotel beach"
         priority
       />
