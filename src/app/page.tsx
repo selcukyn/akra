@@ -1,112 +1,93 @@
 
 "use client";
 
-import React, { useState } from 'react';
-import type { DateRange } from 'react-day-picker';
-import { ItineraryForm } from '@/components/itinerary-form';
-import { ItineraryDisplay } from '@/components/itinerary-display';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { GenerateTripItineraryOutput } from '@/ai/flows/generate-trip-itinerary';
-import { PlaneTakeoff, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Clock, Navigation } from 'lucide-react';
 
-interface GeneratedItineraryState {
-  data: GenerateTripItineraryOutput;
-  originalInput: {
-    destination: string;
-    travelDates: DateRange;
+const CountdownPage = () => {
+  const targetDate = new Date('2025-07-20T00:00:00Z').getTime();
+
+  const calculateTimeLeft = () => {
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    let timeLeft = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return timeLeft;
   };
-}
 
-export default function Home() {
-  const [generatedItinerary, setGeneratedItinerary] = useState<GeneratedItineraryState | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  const handleItineraryGenerated = (
-    data: GenerateTripItineraryOutput,
-    originalInput: { destination: string; travelDates: DateRange }
-  ) => {
-    setGeneratedItinerary({ data, originalInput });
-  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const akraKemerMapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Akra+Kemer";
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="py-6 px-4 md:px-8 bg-primary shadow-md">
-        <div className="container mx-auto flex items-center gap-3">
-          <PlaneTakeoff className="h-10 w-10 text-primary-foreground" />
-          <h1 className="text-4xl font-headline font-bold text-primary-foreground">
-            Gule Gule
-          </h1>
-        </div>
-        <p className="container mx-auto text-lg text-primary-foreground/90 mt-1 font-body">
-          Your AI-Powered Travel Companion
-        </p>
-      </header>
-
-      <main className="flex-grow container mx-auto p-4 md:p-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <Card className="w-full shadow-xl">
-            <CardHeader>
-              <CardTitle className="font-headline text-3xl text-primary flex items-center">
-                <Sparkles className="mr-2 h-7 w-7 text-accent" />
-                Plan Your Next Adventure
-              </CardTitle>
-              <CardDescription>
-                Fill in your travel preferences, and let our AI craft the perfect itinerary for you!
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ItineraryForm
-                onItineraryGenerated={handleItineraryGenerated}
-                isGenerating={isGenerating}
-                setIsGenerating={setIsGenerating}
-              />
-            </CardContent>
-          </Card>
-
-          <div className="w-full">
-            {isGenerating && !generatedItinerary && (
-              <Card className="w-full shadow-xl animate-pulse">
-                <CardHeader>
-                  <CardTitle className="font-headline text-3xl text-primary">Generating...</CardTitle>
-                  <CardDescription>Our AI is crafting your personalized itinerary. Please wait a moment.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="h-8 bg-muted rounded w-3/4"></div>
-                    <div className="h-6 bg-muted rounded w-1/2"></div>
-                    <div className="h-20 bg-muted rounded"></div>
-                    <div className="h-6 bg-muted rounded w-full"></div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-            {generatedItinerary && (
-              <ItineraryDisplay
-                itineraryText={generatedItinerary.data.itinerary}
-                destination={generatedItinerary.originalInput.destination}
-                travelDates={generatedItinerary.originalInput.travelDates}
-              />
-            )}
-            {!isGenerating && !generatedItinerary && (
-               <Card className="w-full shadow-xl border-dashed border-2">
-                <CardHeader>
-                  <CardTitle className="font-headline text-2xl text-muted-foreground">Your Itinerary Awaits</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Once you generate an itinerary, it will appear here. Get started by filling out the form!</p>
-                  <div className="mt-6 flex justify-center">
-                    <PlaneTakeoff className="h-24 w-24 text-muted opacity-20" />
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+    <div
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-white p-4 selection:bg-primary selection:text-primary-foreground"
+      style={{ backgroundImage: "url('https://www.akrahotels.com/media/1due0kcv/akra-kemer-anasayfa-promo.jpg?format=webp&quality=75')" }}
+    >
+      <div className="absolute inset-0 bg-black/60 z-0"></div> {/* Darker Overlay for better contrast */}
+      <div className="relative z-10 flex flex-col items-center text-center backdrop-blur-sm bg-black/40 p-6 sm:p-8 md:p-12 rounded-xl shadow-2xl max-w-3xl w-full">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 flex items-center">
+          <Clock className="mr-2 sm:mr-3 h-10 w-10 sm:h-12 sm:w-12" />
+          Kalan Zaman
+        </h1>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-10 w-full">
+          <div className="bg-white/10 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg">
+            <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-primary" id="days">{timeLeft.days}</div>
+            <div className="text-xs sm:text-sm md:text-base uppercase tracking-wider mt-1">Gün</div>
+          </div>
+          <div className="bg-white/10 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg">
+            <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-primary" id="hours">{timeLeft.hours}</div>
+            <div className="text-xs sm:text-sm md:text-base uppercase tracking-wider mt-1">Saat</div>
+          </div>
+          <div className="bg-white/10 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg">
+            <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-primary" id="minutes">{timeLeft.minutes}</div>
+            <div className="text-xs sm:text-sm md:text-base uppercase tracking-wider mt-1">Dakika</div>
+          </div>
+          <div className="bg-white/10 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg">
+            <div className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-primary" id="seconds">{timeLeft.seconds}</div>
+            <div className="text-xs sm:text-sm md:text-base uppercase tracking-wider mt-1">Saniye</div>
           </div>
         </div>
-      </main>
-
-      <footer className="py-6 text-center text-muted-foreground font-body">
-        <p>&copy; {new Date().getFullYear()} Gule Gule. Happy Travels!</p>
+        <Button
+          onClick={() => window.open(akraKemerMapsUrl, '_blank')}
+          size="lg"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg shadow-lg transition-transform hover:scale-105"
+          aria-label="Akra Kemer için yol tarifi al"
+        >
+          <Navigation className="mr-2 h-5 w-5" />
+          Yol Tarifi
+        </Button>
+      </div>
+       <footer className="absolute bottom-4 text-center text-white/70 text-sm z-10">
+        &copy; {new Date().getFullYear()} Akra Kemer Countdown.
       </footer>
     </div>
   );
+};
+
+export default function Home() {
+  return <CountdownPage />;
 }

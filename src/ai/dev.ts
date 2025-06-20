@@ -1,4 +1,6 @@
+
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/generate-trip-itinerary.ts';
+// Seyahat planı ile ilgili akışlar kaldırıldı.
+// Varsa yeni akışlar için içe aktarmaları buraya ekleyin.
