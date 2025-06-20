@@ -39,8 +39,10 @@ const CountdownPage = () => {
       return newTimeLeft;
     };
 
+    // Calculate initial time left on mount
     setTimeLeft(calculateTimeLeft());
     setCurrentYear(new Date().getFullYear());
+
 
     const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -60,7 +62,7 @@ const CountdownPage = () => {
       <div className="relative z-10 flex flex-col items-center text-center backdrop-blur-sm bg-black/40 p-6 sm:p-8 md:p-12 rounded-xl shadow-2xl max-w-3xl w-full">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 flex items-center">
           <Clock className="mr-2 sm:mr-3 h-10 w-10 sm:h-12 sm:w-12" />
-          Kalan Zaman
+          Tatile Kalan Zaman
         </h1>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-10 w-full">
           <div className="bg-white/10 p-3 sm:p-4 md:p-6 rounded-lg shadow-lg">
@@ -91,7 +93,7 @@ const CountdownPage = () => {
         </Button>
       </div>
        <footer className="absolute bottom-4 text-center text-white/70 text-sm z-10">
-        {currentYear && <> &copy; {currentYear} Akra Kemer Countdown.</>}
+        {currentYear !== null && <> &copy; {currentYear} Akra Kemer Countdown.</>}
       </footer>
     </div>
   );
