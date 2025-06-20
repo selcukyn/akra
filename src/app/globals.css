@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Gill Sans', sans-serif;
+  font-family: Papyrus, sans-serif;
 }
 
 @layer base {
