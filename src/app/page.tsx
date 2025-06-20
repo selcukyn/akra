@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
-import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Navigation from "@/components/navigation";
+import { Clock, Navigation } from 'lucide-react';
 import TripadvisorWidget from "@/components/TripadvisorWidget";
 
 const akraKemerMapsUrl = "https://goo.gl/maps/6n1nci8HkVZKXg8F7";
