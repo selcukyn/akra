@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Clock, Navigation } from 'lucide-react';
 import Image from 'next/image';
+import TripadvisorWidget from "@/components/TripadvisorWidget";
+
+
 
 const CountdownPage = () => {
   const targetDate = new Date('2025-07-20T00:00:00Z').getTime();
@@ -101,6 +104,12 @@ const CountdownPage = () => {
           Yol Tarifi
         </Button>
       </div>
+      
+      {/* Tripadvisor yorumları */}
+      <div className="relative z-10 mt-8 w-full max-w-3xl flex justify-center">
+        <TripadvisorWidget />
+      </div>
+      
        <footer className="absolute bottom-4 text-center text-white/70 text-sm z-10">
         {currentYear !== null && <> &copy; {currentYear} Akra Kemer Countdown.</>}
       </footer>
