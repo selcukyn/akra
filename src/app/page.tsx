@@ -40,7 +40,6 @@ const CountdownPage = () => {
       return newTimeLeft;
     };
 
-    // Set initial values on client-side
     setTimeLeft(calculateTimeLeft());
     setCurrentYear(new Date().getFullYear());
 
@@ -60,11 +59,12 @@ const CountdownPage = () => {
       <Image
         src="https://www.akrahotels.com/media/1due0kcv/akra-kemer-anasayfa-promo.jpg?format=webp&quality=75"
         alt="Akra Kemer Background"
-        layout="fill"
+        fill
         objectFit="cover"
         quality={75}
         className="absolute inset-0 z-0"
         data-ai-hint="hotel beach"
+        priority
       />
       <div className="absolute inset-0 bg-black/50 z-0"></div> {/* Dark overlay */}
 
