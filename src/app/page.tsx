@@ -8,37 +8,46 @@ import { Clock, Navigation } from 'lucide-react';
 const CountdownPage = () => {
   const targetDate = new Date('2025-07-20T00:00:00Z').getTime();
 
-  const calculateTimeLeft = () => {
-    const now = new Date().getTime();
-    const difference = targetDate - now;
-
-    let timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    };
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
 
   useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      let newTimeLeft = {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      };
+
+      if (difference > 0) {
+        newTimeLeft = {
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      }
+      return newTimeLeft;
+    };
+
+    setTimeLeft(calculateTimeLeft());
+    setCurrentYear(new Date().getFullYear());
+
     const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [targetDate]);
 
   const akraKemerMapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Akra+Kemer";
 
@@ -82,7 +91,7 @@ const CountdownPage = () => {
         </Button>
       </div>
        <footer className="absolute bottom-4 text-center text-white/70 text-sm z-10">
-        &copy; {new Date().getFullYear()} Akra Kemer Countdown.
+        {currentYear && <> &copy; {currentYear} Akra Kemer Countdown.</>}
       </footer>
     </div>
   );
