@@ -1,6 +1,7 @@
 
 import type { Metadata } from 'next';
 import './globals.css';
+import { Toaster } from "@/components/ui/toaster"; // Toaster eklendi
 
 export const metadata: Metadata = {
   title: 'Akra Kemer Geri Sayım',
@@ -19,7 +20,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
         {children}
-        {/* Toaster kaldırıldı */}
+        <Toaster /> {/* Toaster eklendi */}
       </body>
     </html>
   );
